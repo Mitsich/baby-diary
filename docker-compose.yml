@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  baby-diary:
+    build: .
+    container_name: baby-diary-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - diary-data:/app/data
+      - ./index.html:/app/index.html
+      - ./styles.css:/app/styles.css
+      - ./components.js:/app/components.js
+      - ./app.js:/app/app.js
+      - ./server.py:/app/server.py
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  diary-data:
+    driver: local

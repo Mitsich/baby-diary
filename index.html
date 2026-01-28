@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дневник Малыша + Тайминг</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Экран авторизации -->
+    <div id="authScreen" class="auth-container">
+        <div class="auth-card">
+            <h1>👶 Дневник Малыша</h1>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" onclick="switchAuthTab('login')">Вход</button>
+                <button class="auth-tab-btn" onclick="switchAuthTab('register')">Новый аккаунт</button>
+            </div>
+
+            <!-- Вкладка входа -->
+            <div id="loginTab" class="auth-tab active">
+                <h2>Вход в аккаунт</h2>
+                <p class="auth-description">Введите ваш ID для входа:</p>
+                
+                <input type="text" id="loginUserId" class="auth-input" placeholder="Ваш ID (например: c402da15-xxxx...)">
+                
+                <button onclick="loginUser()" class="auth-button">Войти</button>
+                
+                <div class="auth-hint">
+                    <p>💡 <strong>Не помните свой ID?</strong></p>
+                    <p>Ваш ID был показан в правом углу приложения (👤 8 символов...)</p>
+                </div>
+            </div>
+
+            <!-- Вкладка регистрации -->
+            <div id="registerTab" class="auth-tab">
+                <h2>Создать новый аккаунт</h2>
+                <p class="auth-description">Нажмите кнопку для создания:</p>
+                
+                <button onclick="registerUser()" class="auth-button">Создать новый аккаунт</button>
+                
+                <div class="auth-hint">
+                    <p>Вам будет выдан уникальный ID, который нужно сохранить для входа.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент приложения (скрыт до авторизации) -->
+    <div id="appContent" style="display: none;">
+        <nav>
+            <button class="tab-btn active" onclick="switchTab('tracker')">📝 Запись</button>
+            <button class="tab-btn" onclick="switchTab('notes')">📄 Заметки</button>
+            <button class="tab-btn" onclick="switchTab('history')">📅 История</button>
+            <button class="tab-btn" onclick="switchTab('analytics')">📊 Анализ</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Настройки</button>
+            <div class="user-display" id="userDisplay">👤 ...</div>
+        </nav>
+
+        <div class="container">
+            <div id="tracker" class="view active">
+                <input type="text" id="eventNote" class="note-input" placeholder="Заметка (мл, настроение, лекарства...)">
+                
+                <div class="controls">
+                    <button class="btn-action btn-sleep" onclick="logEvent('sleep')">
+                        <span>🌑 Уснул(а)</span>
+                        <span style="font-size: 12px; font-weight: normal; opacity: 0.8;">(Начало сна)</span>
+                    </button>
+                    <button class="btn-action btn-wake" onclick="logEvent('wake')">
+                        <span>☀️ Проснул(ась)</span>
+                        <span style="font-size: 12px; font-weight: normal; opacity: 0.8;">(Конец сна)</span>
+                    </button>
+                    <button class="btn-action btn-food" onclick="logEvent('food')">
+                        <span>🍼 Поел(а)</span>
+                    </button>
+                    <button class="btn-action btn-shop" onclick="logEvent('shop')">
+                        <span>🛍️ Покупались</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="notes" class="view">
+                <div class="notes-container">
+                    <div class="notes-input-section">
+                        <textarea id="noteText" class="notes-input" placeholder="Введите вашу заметку..."></textarea>
+                        <button onclick="addNote()" class="btn-primary" style="width: 100%; margin-top: 10px;">➕ Добавить заметку</button>
+                    </div>
+
+                    <div id="notesList" class="notes-list"></div>
+                </div>
+            </div>
+
+            <div id="history" class="view">
+                <div id="historyContent"></div>
+                <button onclick="clearAllData()" class="btn-secondary">Очистить всю историю</button>
+            </div>
+
+            <div id="analytics" class="view">
+                <div class="analytics-container">
+                    <h2>Анализ сна</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Сегодня</h3>
+                            <div id="todaySleepStats"></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Неделя</h3>
+                            <div id="weekSleepStats"></div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-wrapper">
+                            <h3>Сон за последние 7 дней</h3>
+                            <canvas id="sleepChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h3>Бодрствование за последние 7 дней</h3>
+                            <canvas id="awakeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="view">
+                <div class="settings-container">
+                    <h2>⚙️ Настройки</h2>
+                    
+                    <div class="settings-section">
+                        <h3>Информация об аккаунте</h3>
+                        <div class="account-info">
+                            <p><strong>ID пользователя:</strong></p>
+                            <p class="user-id" id="accountUserId"></p>
+                            <button onclick="copyUserIdToClipboard()" class="btn-copy" style="margin-top: 10px;">📋 Копировать ID</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Выход из аккаунта</h3>
+                        <button onclick="logoutUser()" class="btn-logout">🚪 Выйти из аккаунта</button>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Экспорт и импорт данных</h3>
+                        <button onclick="exportJSON()" class="btn-primary" style="width: 100%; margin-bottom: 10px;">📥 Экспорт JSON</button>
+                        <button onclick="importJSON()" class="btn-primary" style="width: 100%;">📤 Импорт JSON</button>
+                    </div>
+
+                    <div class="settings-section danger-zone">
+                        <h3>⚠️ Опасная зона</h3>
+                        <p style="color: #636e72; margin-bottom: 15px;">Эти действия необратимы</p>
+                        
+                        <button onclick="deleteAccount()" class="btn-danger">🗑️ Удалить аккаунт и все данные</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <input type="file" id="jsonFileInput" accept=".json">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="components.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
