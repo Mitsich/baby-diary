@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  baby-diary:
+    build: .
+    container_name: baby-diary-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - baby-diary-network
+
+networks:
+  baby-diary-network:
+    driver: bridge

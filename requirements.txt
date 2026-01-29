@@ -1,0 +1,2 @@
+# Baby Diary App - Python dependencies
+# Application uses Python standard library, no external packages required
