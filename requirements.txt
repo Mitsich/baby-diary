@@ -1,2 +1,0 @@
-# Baby Diary App - Python dependencies
-# The app uses only Python standard library, so this file is minimal
