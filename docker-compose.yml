@@ -7,10 +7,16 @@ services:
     command: bash -c "pip install --no-cache-dir -r requirements.txt && python3 server.py"
     container_name: baby-diary-app
     ports:
-      - "8000:8000"
+      - "0.0.0.0:8000:8000"
     volumes:
       - ./:/app
       - ./data:/app/data
     environment:
       PYTHONUNBUFFERED: "1"
     restart: unless-stopped
+    networks:
+      - baby-diary-network
+
+networks:
+  baby-diary-network:
+    driver: bridge
