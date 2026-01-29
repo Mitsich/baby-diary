@@ -1,17 +1,19 @@
-# Используем легкий базовый образ Python
 FROM python:3.11-slim
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем все файлы приложения
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application files
 COPY . .
 
-# Создаем директорию для данных
-RUN mkdir -p /app/data
-
-# Открываем порт
+# Expose port
 EXPOSE 8000
 
-# Команда для запуска сервера
-CMD ["python", "server.py"]
+# Set proper working directory for server
+WORKDIR /app
+
+# Run server
+CMD ["python3", "server.py"]
