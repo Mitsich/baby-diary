@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   baby-diary:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: baby-diary-app
     ports:
       - "8000:8000"
@@ -10,9 +12,16 @@ services:
       - ./data:/app/data
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
     restart: unless-stopped
     networks:
       - baby-diary-network
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
 
 networks:
   baby-diary-network:
