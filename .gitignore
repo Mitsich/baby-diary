@@ -1,57 +1,21 @@
-# Data and user files
-data/
-*.json
-
-# Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
+*.pyc
+*.pyo
+*.pyd
 .Python
 env/
 venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# IDE
+.venv/
+.env
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
-
-# Docker
-.dockerignore
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-npm-debug.log*
-
-# Node (if added later)
 node_modules/
-package-lock.json
-yarn.lock
-
-# OS
-.DS_Store
-Thumbs.db
+dist/
+build/
+*.log
+.git/
+.gitignore~
