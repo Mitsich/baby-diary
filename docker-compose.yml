@@ -11,6 +11,9 @@ services:
     volumes:
       - ./:/app
       - ./data:/app/data
+      - ./ico:/app/ico
+      - ./js:/app/js
+      - ./css:/app/css
     environment:
       PYTHONUNBUFFERED: "1"
     restart: unless-stopped
