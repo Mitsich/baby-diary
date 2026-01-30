@@ -15,7 +15,7 @@ services:
       - ./js:/app/js
       - ./css:/app/css
     environment:
-      PYTHONUNBUFFERED: "1"
+      PYTHONUNBUFFERED: "0"
     restart: unless-stopped
     networks:
       - baby-diary-network
