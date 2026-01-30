@@ -56,7 +56,7 @@ function logEvent(type) {
     if (document.getElementById('history').classList.contains('active')) {
         renderHistory(events);
     } else {
-        alert(`Записано: ${getLabel(type)}`);
+       console.log('Записано');
     }
 }
 
