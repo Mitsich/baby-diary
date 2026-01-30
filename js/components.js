@@ -5,7 +5,7 @@
 // Label mapping
 const LABELS = {
     sleep: 'Уснул(а)',
-    wake: 'Проснул(ась)',
+    wake: 'Проснулся(ась)',
     food: 'Поел(а)',
     shop: 'Покупались',
 };
