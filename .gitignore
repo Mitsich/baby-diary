@@ -20,3 +20,7 @@ build/
 .git/
 .gitignore~
 /data/
+requirements.txt
+readme.md
+LICENSE
+/tests/
